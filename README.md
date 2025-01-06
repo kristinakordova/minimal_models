@@ -1,2 +1,4 @@
 # minimal_models
-Minimal machine learning models for predicting antimicrobial resistance phenotype
+Minimal machine learning models for predicting antimicrobial resistance phenotype.
+
+All data and results are available through: https://zenodo.org/records/14126594?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjNiZTcxYzBmLTEwMWMtNGMxOS1hZWE1LTZlYjExNDI2NGZlMyIsImRhdGEiOnt9LCJyYW5kb20iOiJjZGFiZTVjYWJmOWQ2NDhkMTgwYmQ3ZjhhNGY2MjJhMyJ9.UbacJcicqSqhfTQ7gMir8uwCQpMJdl8UlKtBt9ifkVsHGaOf4zzorRXR6Bw2IVXvsLYhlg_7IKuas0Nl3V_SkA
