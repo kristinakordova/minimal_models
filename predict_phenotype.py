@@ -125,20 +125,20 @@ def predict_phenotype(annotations, phenotype, Kleborate, model, annotation_tool,
             print(merged)
 
         elif annotation_tool == "DeepARG":
-            antibiotic_classes_subset = antibiotic_classes[antibiotic_classes["Drugs"] == antibiotic]
+            antibiotic_classes_subset = antibipotic_classes[antibipotic_classes["Drugs"] == antibiotic]
             antibiotic_classes_subset = list(set(antibiotic_classes_subset["Subclass"]))
             antibiotic_classes_subset = [x.lower() for x in antibiotic_classes_subset]
             annotations["Genome.ID"] = annotations["Genome.ID"].str.replace('.fna$', '', regex=True)
-            annotations.loc[:, "Genome ID"] = annotations["Genome ID"].astype(str)
+            annotations.loc[:, "Genome.ID"] = annotations["Genome.ID"].astype(str)
             DeepARG_drug = annotations[annotations["Genome.ID"].isin(AMR_subset["Genome ID"])]
             genes = list(set(DeepARG_drug[DeepARG_drug["predicted_ARG-class"].isin(antibiotic_classes_subset)]["best-hit"]))
             genes_multiclass = list(DeepARG_drug[DeepARG_drug["predicted_ARG-class"]=="multidrug"]["best-hit"])
             genes = genes + genes_multiclass
             genes = list(set([x.split('|')[-1] for x in genes]))
-            DeepARG_drug = DeepARG_drug[["Genome.ID","best-hit","probability"]]
+            DeepARG_drug = DeepARG_drug[["Genome.ID","best-hit","identity"]]
             DeepARG_drug["best-hit"] = DeepARG_drug["best-hit"].str.split('|').str[-1]
             DeepARG_drug = DeepARG_drug.drop_duplicates(subset=["Genome.ID", "best-hit"])
-            df_pivot = DeepARG_drug.pivot(index="Genome.ID", columns="best-hit", values="probability")
+            df_pivot = DeepARG_drug.pivot(index="Genome.ID", columns="best-hit", values="identity")
             df_pivot = df_pivot.notna().astype(int)
             df_pivot = df_pivot[genes]
             merged = pd.merge(df_pivot, AMR_subset, left_on= df_pivot.index, right_on = "Genome ID", how = "inner")
