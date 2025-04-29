@@ -1,6 +1,6 @@
 import argparse
 
-def predict_phenotype(annotations, phenotype, Kleborate, model, annotation_tool, output_path, antibipotic_classes, genes_to_class):
+def predict_phenotype(annotations, phenotype, Kleborate, model, annotation_tool, output_path, antibiotic_classes, genes_to_class):
     """
     Preducts phenotype based on annotations - minimal models
     
@@ -46,7 +46,7 @@ def predict_phenotype(annotations, phenotype, Kleborate, model, annotation_tool,
     file_2 = open(f'{output_path}/number_of_genes_across_tools.txt', 'a')
     file_3 = open(f'{output_path}/performances_across_tools_sensitivity.txt', 'a')
     file_4 = open(f'{output_path}/performances_across_tools_specificity.txt', 'a')
-    antibiotic_classes = pd.read_csv(antibipotic_classes)
+    antibiotic_classes = pd.read_csv(antibiotic_classes)
     if Kleborate == True: 
         Kleb = pd.read_csv(Kleborate, delimiter = "\t")
         Kleb = Kleb[Kleb["species"] == "Klebsiella pneumoniae"]
@@ -195,18 +195,7 @@ def predict_phenotype(annotations, phenotype, Kleborate, model, annotation_tool,
         if annotation_tool == "Kleborate":
             print(antibiotic)
             merge_antibiotic_classes = pd.merge(antibiotic_classes, genes_to_class, left_on = "Subclass", right_on = "Antibiotic", how = "inner")
-            resistances = resistances.drop(['species', 'species_match', 'contig_count', 'N50',
-            'largest_contig', 'total_size', 'ambiguous_bases', 'QC_warnings', 'ST',
-            'virulence_score', 'resistance_score', 'num_resistance_classes',
-            'num_resistance_genes', 'Yersiniabactin', 'YbST', 'Colibactin', 'CbST',
-            'Aerobactin', 'AbST', 'Salmochelin', 'SmST', 'RmpADC', 'RmST', 'rmpA2',
-            'wzi', 'K_locus', 'spurious_virulence_hits', 'Chr_ST', 'gapA', 'infB', 'mdh', 'pgi',
-            'phoE', 'rpoB', 'tonB', 'ybtS', 'ybtX', 'ybtQ', 'ybtP', 'ybtA', 'irp2',
-            'irp1', 'ybtU', 'ybtT', 'ybtE', 'fyuA', 'clbA', 'clbB', 'clbC', 'clbD',
-            'clbE', 'clbF', 'clbG', 'clbH', 'clbI', 'clbL', 'clbM', 'clbN', 'clbO',
-            'clbP', 'clbQ', 'iucA', 'iucB', 'iucC', 'iucD', 'iutA', 'iroB', 'iroC',
-            'iroD', 'iroN', 'rmpA', 'rmpD', 'rmpC'], axis=1)
-            resistances = resistances.set_index('strain')
+            resistances = annotations.set_index('strain')
             arr = resistances.values
             flat_list = arr.flatten().tolist()
             split_values = [item.split(';') for item in flat_list]
@@ -229,7 +218,8 @@ def predict_phenotype(annotations, phenotype, Kleborate, model, annotation_tool,
                         df_class.loc[index,col] = 1
                     else: 
                         df_class.loc[index,col] = 0
-            print(len(df_class.columns))
+            AMR_subset["Genome ID"] = AMR_subset["Genome ID"].astype(str)
+            df_class.index = df_class.index.astype(str)
             AMR_subset = AMR[AMR["Antibiotic"]==antibiotic]
             AMR_subset = AMR_subset[AMR_subset["Genome ID"].isin(df_class.index)]
             AMR_subset = AMR_subset[["Genome ID", "Resistant Phenotype"]]
