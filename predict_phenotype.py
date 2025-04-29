@@ -89,7 +89,7 @@ def predict_phenotype(annotations, phenotype, Kleborate, model, annotation_tool,
             merged = pd.merge(df_pivot, AMR_subset, left_on= df_pivot.index, right_on = "Genome ID", how = "inner")
         
         elif annotation_tool == "AMRFinderPlus":
-            antibiotic_classes_subset = antibiotic_classes[antibiotic_classes["Drugs"]==antibiotic]
+            antibiotic_classes_subset = antibipotic_classes[antibipotic_classes["Drugs"]==antibiotic]
             antibiotic_classes_subset = list(set(antibiotic_classes_subset["Subclass"]))
             annotations.loc[:, "Contig id"] = annotations["Contig id"].astype(str)
             amr_finder_drug = annotations[annotations["Contig id"].isin(AMR_subset["Genome ID"])]
@@ -103,7 +103,7 @@ def predict_phenotype(annotations, phenotype, Kleborate, model, annotation_tool,
             print(merged)
         
         elif annotation_tool == annotation_tool == "ResFinder":
-            antibiotic_classes_subset = antibiotic_classes[antibiotic_classes["Drugs"] == antibiotic]
+            antibiotic_classes_subset = antibipotic_classes[antibipotic_classes["Drugs"] == antibiotic]
             antibiotic_classes_subset = list(set(antibiotic_classes_subset["Subclass"]))
             antibiotic_classes_subset = [x.lower() for x in antibiotic_classes_subset]
             annotations["Genome.ID"] = annotations["Genome.ID"].str.replace('.fna$', '', regex=True)
@@ -178,8 +178,8 @@ def predict_phenotype(annotations, phenotype, Kleborate, model, annotation_tool,
         
         elif annotation_tool == "SraX":
             annotations["Genome.ID"] = annotations["Genome.ID"].str.replace('.fna$', '', regex=True)
-            annotations.loc[:, "Genome ID"] = annotations["Genome ID"].astype(str)
-            antibiotic_classes_subset = antibiotic_classes[antibiotic_classes["Drugs"] == antibiotic]
+            annotations.loc[:, "Genome.ID"] = annotations["Genome.ID"].astype(str)
+            antibiotic_classes_subset = antibipotic_classes[antibipotic_classes["Drugs"] == antibiotic]
             antibiotic_classes_subset["Subclass"] = antibiotic_classes_subset["Subclass"].str.lower()
             annotations["Drug class"]= annotations["Drug class"].str.lower()
             SraX_subset = annotations[annotations["Genome.ID"].isin(AMR_subset["Genome ID"])]
