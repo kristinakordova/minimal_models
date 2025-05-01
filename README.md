@@ -1,5 +1,4 @@
-#Minimal machine learning models of resistance identify novel antibiotic resistance discovery opportunities in Klebsiella pneumoniae
-
+**Minimal machine learning models of resistance identify novel antibiotic resistance discovery opportunities in Klebsiella pneumoniae**
 
 Use:
 
