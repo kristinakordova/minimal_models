@@ -1,5 +1,5 @@
-# minimal_models
-Minimal machine learning models for predicting antimicrobial resistance phenotype.
+#Minimal machine learning models of resistance identify novel antibiotic resistance discovery opportunities in Klebsiella pneumoniae
+
 
 Use:
 
